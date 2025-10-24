@@ -16,15 +16,16 @@ input {
 .header {
     padding: 35px 10px;
     border-bottom: 2px solid #000;
-
-    /* Todo: remove margin bottom once loader is added */
-    margin-bottom: 60px;
 }
 
 .header__title {
     margin: 0;
     text-align: center;
     font-size: 30px;
+}
+
+.header__title--rainbow {
+    animation: rainbow 3s infinite linear;
 }
 
 
@@ -55,4 +56,89 @@ input {
 
     text-align: center;
     text-transform: uppercase;
+}
+
+.game-board__cell__input--invalid {
+    animation: invalid-input 500ms 1 linear;
+}
+
+.game-board__cell__input--checked {
+    color: #FFF;
+}
+.game-board__cell__input--exist {
+    background-color: #daa520;
+
+}
+.game-board__cell__input--exist.game-board__cell__input--correct-order {
+    background-color: #006400;
+}
+.game-board__cell__input--not-exist {
+    background-color: #888;
+}
+
+.status-bar {
+    height: 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-bar__spiral {
+    display: none;
+
+    font-size: 40px;
+    animation: spiral 1.5s infinite linear;
+}
+
+.status-bar__spiral--loading {
+    display: inline;
+}
+
+@keyframes spiral {
+    0% {
+        rotate: 0deg
+    }
+    100% {
+        rotate: 360deg;
+    }
+}
+
+@keyframes invalid-input {
+    0% {
+        border-color: oklch(50.5% 0.213 27.518);
+    }
+    50% {
+        border-color: oklch(57.7% 0.245 27.325);
+    }
+    100% {
+        border-color: #CCC;
+    }
+}
+
+@keyframes rainbow {
+    0% {
+        color: #9400D3;
+    }
+    15% {
+        color: #4B0082;
+    }
+    30% {
+        color: #0000FF;
+    }
+    45% {
+        color: #00FF00;
+    }
+    60% {
+        color: #FFFF00;
+    }
+    75% {
+        color: #FF7F00;
+    }
+    90% {
+        color: #FF0000;
+    }
+    100%  {
+        color: #9400D3;
+    }
 }
