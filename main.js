@@ -5,7 +5,7 @@ const WORD_LENGTH = 5;
 let spiral = document.querySelector(".status-bar__spiral");
 let inputList = document.querySelectorAll(".game-board__cell__input");
 let headerTitle = document.querySelector(".header__title");
-let secretWord;
+let secretWord = "";
 let currentInputIdx = 0;
 let currentGuess = 1;
 let isLoading = false;
@@ -16,7 +16,7 @@ function fetchSecretWord () {
     toggleSpiral()
     fetch(SECRET_WORD_API).then(async res => {
         const response = await res.json();
-        secretWord = response.word;
+        // secretWord = response.word;
     }).finally(() => {
         toggleSpiral()
     })
@@ -85,21 +85,29 @@ function updateGameStatus() {
 
 function compareGuessAgainstSecretWord (guess) {
     const inputs = getCurrentGuessInputs();
-    const secretCopy = secretWord;
+    let secretCopy = secretWord;
+
+    // Loop to catch characters that's exist and in the right place
     for (let i = 0; i < WORD_LENGTH; i++) {
         inputs[i].classList.add("game-board__cell__input--checked")
-
+        if (i === secretCopy.indexOf(guess[i])) {
+            inputs[i].classList.add("game-board__cell__input--exist")
+            inputs[i].classList.add("game-board__cell__input--correct-order")
+            // Mark characters as checked
+            guess = guess.substring(0,i) + '_' + guess.substring(i + 1)
+            secretCopy = secretCopy.substring(0,i) + '_' + secretCopy.substring(i + 1)
+        }
+    }
+    // Loop to catch characters that either exist but in the wrong place or doesn't exist
+    for (let i = 0; i < WORD_LENGTH; i++) {
+        if (guess[i] === "_") {
+            continue;
+        }
         const charIdx = secretCopy.indexOf(guess[i]);
         if (charIdx === -1) {
             inputs[i].classList.add("game-board__cell__input--not-exist")
         }else {
-            secretCopy[i] = "_"; // Mark it as matched, so that we don't match it again by mistake
-            if (i === charIdx) {
-                inputs[i].classList.add("game-board__cell__input--exist")
-                inputs[i].classList.add("game-board__cell__input--correct-order")
-            }else {
-                inputs[i].classList.add("game-board__cell__input--exist")
-            }
+            inputs[i].classList.add("game-board__cell__input--exist")
         }
     }
     updateGameStatus();
