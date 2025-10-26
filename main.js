@@ -16,7 +16,7 @@ function fetchSecretWord () {
     toggleSpiral()
     fetch(SECRET_WORD_API).then(async res => {
         const response = await res.json();
-        // secretWord = response.word;
+        secretWord = response.word;
     }).finally(() => {
         toggleSpiral()
     })
